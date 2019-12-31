@@ -4,8 +4,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        html,body {
+            font-family: arial;
+            padding:0px;
+            margin:0px;
+        }
+
+        .wrapper{
+            width:800px;
+            margin:auto;
+            background-color:#888;
+            height:750px;
+            border-radius: 5px;
+        }
+
+        .wrapper h1 {
+            background-color: #333;
+            padding:10px;
+            color:white;
+        }
+
+        ul {
+            list-style: none;
+            padding:0;
+            margin:0;
+        }
+
+        ul li {
+            margin: 5px;
+            background-color: #AAA;
+            padding:20px;
+            font-size: 24px;
+            border-radius: 5px;
+        }
+
+        .tripped {
+            background-color: #f27888;
+            color:white;
+        }
+
+        .energized {
+            background-color: #2aac2d;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="wrapper">
+        <div id="app">
+            <h1>Leaky Tank Simulator</h1>
+            <ul>
+                <li>Tank Level: {{data.tank_level}}</li>
+                <li :class="{energized: data.pump}">Pump: {{data.pump ? "ON" : "OFF"}}</li>
+                <li :class="{tripped: data.hl_alarm}">High Level Alarm: {{data.hl_alarm ? "ALARM" : "RESET"}}</li>
+                <li :class="{tripped: data.ll_alarm}">Low Level Alarm: {{data.ll_alarm ? "ALARM" : "RESET"}}</li>
+                <li>Capacity: {{data.capacity}}</li>
+                <li>High Level: {{data.high_level}}</li>
+                <li>Low Level: {{data.low_level}}</li>
+            </ul>
+
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                data: {}
+            },
+            created () {
+                var socket = io();
+                socket.on("data", data => {
+                    this.data = data;
+                })
+            }
+        })
+    </script>
 </body>
+
 </html>
