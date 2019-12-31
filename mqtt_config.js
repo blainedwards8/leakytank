@@ -1,3 +1,3 @@
 module.exports = {
-    mqtt_server: "mqtt://192.168.0.101:1883"
+    mqtt_server: "mqtt://192.168.86.68:1884"
 }
